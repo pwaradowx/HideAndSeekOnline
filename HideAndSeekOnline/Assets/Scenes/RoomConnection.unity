@@ -2275,6 +2275,7 @@ MonoBehaviour:
   ipAddressField: {fileID: 310055151}
   passwordField: {fileID: 742141417}
   ipAddress: {fileID: 1199336836}
+  connectionCanvas: {fileID: 270333136}
 --- !u!1 &1693802592
 GameObject:
   m_ObjectHideFlags: 0

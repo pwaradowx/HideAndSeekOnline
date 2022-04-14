@@ -14,6 +14,7 @@ namespace Project.RoomConnection
         [SerializeField] private TMP_InputField ipAddressField;
         [SerializeField] private TMP_InputField passwordField;
         [SerializeField] private TextMeshProUGUI ipAddress;
+        [SerializeField] private GameObject connectionCanvas;
 
         private const string PasswordKey = "RoomPassword";
 
@@ -71,6 +72,18 @@ namespace Project.RoomConnection
                 }
             }
             throw new Exception("No network adapters with an IPv4 address in the system!");
+        }
+
+        private void Start()
+        {
+            NetworkManager.Singleton.OnClientConnectedCallback += DisableConnectionUI;
+        }
+        
+        private void DisableConnectionUI(ulong userID)
+        {
+            if (userID != NetworkManager.Singleton.LocalClientId) return;
+            
+            connectionCanvas.SetActive(false);
         }
     }
 }
