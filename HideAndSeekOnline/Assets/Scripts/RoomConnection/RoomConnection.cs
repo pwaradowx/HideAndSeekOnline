@@ -6,6 +6,7 @@ using UnityEngine;
 using Unity.Netcode;
 using TMPro;
 using Unity.Netcode.Transports.UTP;
+using UnityEngine.SceneManagement;
 
 namespace Project.RoomConnection
 {
@@ -13,8 +14,6 @@ namespace Project.RoomConnection
     {
         [SerializeField] private TMP_InputField ipAddressField;
         [SerializeField] private TMP_InputField passwordField;
-        [SerializeField] private TextMeshProUGUI ipAddress;
-        [SerializeField] private GameObject connectionCanvas;
 
         private const string PasswordKey = "RoomPassword";
 
@@ -25,7 +24,6 @@ namespace Project.RoomConnection
             SavePassword(passwordField.text);
 
             string localIP = GetLocalIP();
-            ipAddress.text = localIP;
             NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.ServerListenAddress = localIP;
             NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = localIP;
 
@@ -47,13 +45,13 @@ namespace Project.RoomConnection
 
             if (approval)
             {
-                callback(true, null, true, Vector3.zero, Quaternion.identity);
+                callback(false, null, true, Vector3.zero, Quaternion.identity);
             }
             else
             {
                 bool isHost = NetworkManager.Singleton.LocalClientId == userID;
 
-                callback(isHost, null, isHost, Vector3.zero, Quaternion.identity);
+                callback(false, null, isHost, Vector3.zero, Quaternion.identity);
             }
         }
 
@@ -76,14 +74,14 @@ namespace Project.RoomConnection
 
         private void Start()
         {
-            NetworkManager.Singleton.OnClientConnectedCallback += DisableConnectionUI;
+            NetworkManager.Singleton.OnClientConnectedCallback += GoToRoom;
         }
-        
-        private void DisableConnectionUI(ulong userID)
+
+        private void GoToRoom(ulong userID)
         {
             if (userID != NetworkManager.Singleton.LocalClientId) return;
-            
-            connectionCanvas.SetActive(false);
+
+            NetworkManager.Singleton.SceneManager.LoadScene("Room", LoadSceneMode.Single);
         }
     }
 }
