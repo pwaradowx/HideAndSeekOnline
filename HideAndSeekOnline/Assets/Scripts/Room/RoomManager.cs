@@ -4,6 +4,7 @@ using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Project.Global;
 
 namespace Project.Room
 {
@@ -44,7 +45,8 @@ namespace Project.Room
             {
                 if (_roomPlayers[i].UserID == serverParams.Receive.SenderClientId)
                 {
-                    _roomPlayers[i] = new RoomPlayerState(_roomPlayers[i].UserID, !_roomPlayers[i].IsReady);
+                    _roomPlayers[i] = new RoomPlayerState(
+                        _roomPlayers[i].UserName, _roomPlayers[i].UserID, !_roomPlayers[i].IsReady);
                 }
             }
         }
@@ -92,7 +94,7 @@ namespace Project.Room
         
         private void HandleClientConnected(ulong clientID)
         {
-            _roomPlayers.Add(new RoomPlayerState(clientID, false));
+            _roomPlayers.Add(new RoomPlayerState(UserConfig.Instance.GetNameByID(clientID), clientID, false));
         }
         
         private void HandleClientDisconnected(ulong clientID)

@@ -8,6 +8,7 @@ namespace Project.Room
         [SerializeField] private GameObject waitingPanel;
         [SerializeField] private GameObject playerDataPanel;
 
+        [SerializeField] private TextMeshProUGUI nameText;
         [SerializeField] private TextMeshProUGUI readyText;
 
         public void UpdateDisplay(RoomPlayerState playerState)
@@ -15,6 +16,7 @@ namespace Project.Room
             waitingPanel.SetActive(false);
             playerDataPanel.SetActive(true);
 
+            nameText.text = playerState.UserName.ToString();
             readyText.text = playerState.IsReady ? "Ready" : "Not Ready";
         }
     }
