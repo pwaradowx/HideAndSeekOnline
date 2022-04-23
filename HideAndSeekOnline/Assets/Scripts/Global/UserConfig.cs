@@ -7,7 +7,8 @@ namespace Project.Global
     public class UserConfig : MonoBehaviour
     {
         public static UserConfig Instance;
-        
+
+        public bool IsGameStarted { get; set; }
         public string UserName { get; set; }
 
         private readonly Dictionary<ulong, string> _roomPlayersNames = new Dictionary<ulong, string>();

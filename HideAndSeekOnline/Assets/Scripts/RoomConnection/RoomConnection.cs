@@ -21,14 +21,13 @@ namespace Project.RoomConnection
         [SerializeField] private ResetNameButton resetNameButton;
 
         private bool _isItNewAccount;
-
-        private const string PasswordKey = "RoomPassword";
+        private string _roomPassword;
 
         public void HostButtonClick()
         {
             NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
             
-            SavePassword(passwordField.text);
+            _roomPassword = passwordField.text;
 
             string localIP = GetLocalIP();
             NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.ServerListenAddress = localIP;
@@ -64,7 +63,13 @@ namespace Project.RoomConnection
 
         private void ApprovalCheck(byte[] connectionData, ulong userID, NetworkManager.ConnectionApprovedDelegate callback)
         {
-            bool approval = Encoding.ASCII.GetString(connectionData).Split()[0] == GetPassword();
+            if (UserConfig.Instance.IsGameStarted)
+            {
+                callback(false, null, false, Vector3.zero, Quaternion.identity);
+                return;
+            }
+            
+            bool approval = Encoding.ASCII.GetString(connectionData).Split()[0] == _roomPassword;
 
             if (approval)
             {
@@ -94,10 +99,6 @@ namespace Project.RoomConnection
                 callback(false, null, isHost, Vector3.zero, Quaternion.identity);
             }
         }
-
-        private void SavePassword(string password) => PlayerPrefs.SetString(PasswordKey, password);
-        
-        private string GetPassword() => PlayerPrefs.GetString(PasswordKey);
 
         private string GetLocalIP()
         {
