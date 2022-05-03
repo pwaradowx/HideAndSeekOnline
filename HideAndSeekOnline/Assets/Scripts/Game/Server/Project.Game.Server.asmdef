@@ -1,0 +1,18 @@
+{
+    "name": "Project.Game.Server",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5e561660d5b922141885132def7cadaf",
+        "GUID:1491147abca9d7d4bb7105af628b223e",
+        "GUID:3a63ec452f87b6b468637339db0ef0ef"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
