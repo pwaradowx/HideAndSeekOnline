@@ -6,9 +6,10 @@ namespace Project.Game.Player
 {
     public class PlayerEntity : NetworkBehaviour
     {
-        [SerializeField] private Behaviour[] componentsToDisable;
-        [SerializeField] private GameObject[] objectsToDisable;
+        [SerializeField] private GameObject PlayerInterface;
         
+        [SerializeField] private Behaviour[] componentsToDisable;
+
         public string Name
         {
             get => _name;
@@ -26,6 +27,8 @@ namespace Project.Game.Player
         {
             base.OnNetworkSpawn();
             
+            if (IsOwner) PlayerInterface.SetActive(true);
+
             _nameplate = GetComponentInChildren<TextMeshPro>();
 
             if (!IsLocalPlayer)
@@ -33,11 +36,6 @@ namespace Project.Game.Player
                 foreach (var component in componentsToDisable)
                 {
                     component.enabled = false;
-                }
-
-                foreach (var obj in objectsToDisable)
-                {
-                    obj.SetActive(false);
                 }
             }
         }
