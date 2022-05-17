@@ -1,68 +1,57 @@
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 namespace Project.Game.Player
 {
     public class Seeker : NetworkBehaviour
     {
-        [SerializeField] private EventTrigger fireButton;
+        [SerializeField] private Camera cam;
+        
+        private PlayerInput _playerInput;
 
         private bool _shouldFire;
-
+        private float _damage = 2f;
+        private const float FireDistance = 100f;
+        
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
 
-            SetupFireButtonTriggers();
+            _playerInput = GetComponent<PlayerInput>();
+
+            _playerInput.actions["Fire"].started += callback => _shouldFire = true;
+            _playerInput.actions["Fire"].canceled += callback => _shouldFire = false;
         }
 
         private void FixedUpdate()
         {
-            if (_shouldFire) HandleFire();
+            if (!_shouldFire) return;
+            
+            HandleFire();
         }
 
         private void HandleFire()
         {
-            fireButton.GetComponent<Image>().color = Color.red;
+            print("Here");
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, FireDistance))
+            {
+                if (!hit.collider.TryGetComponent(out Hider hider)) return;
+                
+                InflictDamageServerRpc(hider.NetworkObjectId);
+            }
         }
 
-        private void SetupFireButtonTriggers()
+        [ServerRpc(RequireOwnership = false)]
+        private void InflictDamageServerRpc(ulong objectID)
         {
-            EventTrigger.Entry pointerDownEntry = new EventTrigger.Entry
-            {
-                eventID = EventTriggerType.PointerDown
-            };
-            pointerDownEntry.callback.AddListener(data =>
-            {
-                OnFireButtonDown();
-            });
-            fireButton.triggers.Add(pointerDownEntry);
-
-            EventTrigger.Entry pointerUpEntry = new EventTrigger.Entry
-            {
-                eventID = EventTriggerType.PointerUp
-            };
-            pointerUpEntry.callback.AddListener(data =>
-            {
-                OnFireButtonUp();
-            });
-            fireButton.triggers.Add(pointerUpEntry);
-
-            EventTrigger.Entry pointerExitEntry = new EventTrigger.Entry
-            {
-                eventID = EventTriggerType.PointerExit
-            };
-            pointerExitEntry.callback.AddListener(data =>
-            {
-                OnFireButtonExit();
-            });
-            fireButton.triggers.Add(pointerExitEntry);
+            InflictDamageClientRpc(objectID);
         }
 
-        private void OnFireButtonDown() => _shouldFire = true;
-        private void OnFireButtonUp() => _shouldFire = false;
-        private void OnFireButtonExit() => _shouldFire = false;
+        [ClientRpc]
+        private void InflictDamageClientRpc(ulong objectID)
+        {
+            NetworkManager.Singleton.SpawnManager.SpawnedObjects[objectID].GetComponent<Hider>().TakeDamage(_damage);
+        }
     }
 }

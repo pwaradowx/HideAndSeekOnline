@@ -31,6 +31,8 @@ namespace Project.Game.Player
         {
             _playerInput = GetComponent<PlayerInput>();
             _character = GetComponent<CharacterController>();
+
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         private void FixedUpdate()
@@ -42,7 +44,6 @@ namespace Project.Game.Player
         private void HandlePlayerMovementAndRotation()
         {
             if (!IsOwner) return;
-            if (_playerInput.actions["Move"].phase != InputActionPhase.Performed) return;
 
             Vector2 input = _playerInput.actions["Move"].ReadValue<Vector2>();
 
@@ -58,7 +59,6 @@ namespace Project.Game.Player
         private void HandleCameraRotation()
         {
             if (!IsOwner) return;
-            if (_playerInput.actions["Look"].phase != InputActionPhase.Performed) return;
 
             Vector2 input = _playerInput.actions["Look"].ReadValue<Vector2>();
             
