@@ -1,2 +1,2 @@
 # HideAndSeekOnline
-Online mobile game with hide and seek thematic.
+Online game with hide and seek mechanics.
