@@ -7,6 +7,7 @@ namespace Project.Game.Player
     public class PlayerEntity : NetworkBehaviour
     {
         [SerializeField] private GameObject PlayerInterface;
+        [SerializeField] private TextMeshProUGUI nameplate;
         
         [SerializeField] private Behaviour[] componentsToDisable;
 
@@ -16,20 +17,16 @@ namespace Project.Game.Player
             set
             {
                 _name = value;
-                _nameplate.text = value;
+                nameplate.text = value;
             }
         }
         private string _name;
-
-        private TextMeshPro _nameplate;
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
             
             if (IsOwner) PlayerInterface.SetActive(true);
-
-            _nameplate = GetComponentInChildren<TextMeshPro>();
 
             if (!IsLocalPlayer)
             {

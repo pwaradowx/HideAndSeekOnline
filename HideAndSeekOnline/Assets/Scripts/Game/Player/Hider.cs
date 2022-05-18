@@ -1,25 +1,29 @@
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace Project.Game.Player
 {
     public class Hider : NetworkBehaviour
     {
         [SerializeField] private Transform body;
+        [SerializeField] private Slider healthBar;
 
         private PlayerInput _playerInput;
 
         private bool _shouldRotate;
 
         private float _health;
-        private const float MaxHealth = 100f;
+        private const int MaxHealth = 100;
         
         private const float RotationSpeed = 100f;
 
         public void TakeDamage(float damage)
         {
             _health -= damage;
+
+            healthBar.value = _health;
 
             if (_health <= 0)
             {

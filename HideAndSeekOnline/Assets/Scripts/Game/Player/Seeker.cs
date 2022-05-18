@@ -11,7 +11,7 @@ namespace Project.Game.Player
         private PlayerInput _playerInput;
 
         private bool _shouldFire;
-        private float _damage = 2f;
+        private float _damage = 0.75f;
         private const float FireDistance = 100f;
         
         public override void OnNetworkSpawn()
