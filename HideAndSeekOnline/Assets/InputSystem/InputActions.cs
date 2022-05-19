@@ -49,6 +49,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Swap"",
+                    ""type"": ""Button"",
+                    ""id"": ""9ac725ed-e505-4775-9e67-811e24261995"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -139,6 +147,17 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""action"": ""Rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b42459fb-b74a-41bf-9f57-78ac34c50ef0"",
+                    ""path"": ""<Keyboard>/#(E)"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -151,6 +170,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
+        m_Player_Swap = m_Player.FindAction("Swap", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -204,6 +224,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Rotate;
+    private readonly InputAction m_Player_Swap;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -212,6 +233,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
+        public InputAction @Swap => m_Wrapper.m_Player_Swap;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -233,6 +255,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Rotate.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
                 @Rotate.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
                 @Rotate.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
+                @Swap.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwap;
+                @Swap.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwap;
+                @Swap.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwap;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -249,6 +274,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Rotate.started += instance.OnRotate;
                 @Rotate.performed += instance.OnRotate;
                 @Rotate.canceled += instance.OnRotate;
+                @Swap.started += instance.OnSwap;
+                @Swap.performed += instance.OnSwap;
+                @Swap.canceled += instance.OnSwap;
             }
         }
     }
@@ -259,5 +287,6 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
+        void OnSwap(InputAction.CallbackContext context);
     }
 }

@@ -36,6 +36,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Swap",
+                    "type": "Button",
+                    "id": "9ac725ed-e505-4775-9e67-811e24261995",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -124,6 +132,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b42459fb-b74a-41bf-9f57-78ac34c50ef0",
+                    "path": "<Keyboard>/#(E)",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Swap",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

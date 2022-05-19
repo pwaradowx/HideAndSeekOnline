@@ -849,6 +849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba492be7df1daeb468b5ddb08910c7c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 2560444469673401551}
   body: {fileID: 4751611713178920558}
   healthBar: {fileID: 8409923690950252877}
 --- !u!114 &4751611713186240508

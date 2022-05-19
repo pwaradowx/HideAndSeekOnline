@@ -33,7 +33,6 @@ namespace Project.Game.Player
 
         private void HandleFire()
         {
-            print("Here");
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, FireDistance))
             {
                 if (!hit.collider.TryGetComponent(out Hider hider)) return;
