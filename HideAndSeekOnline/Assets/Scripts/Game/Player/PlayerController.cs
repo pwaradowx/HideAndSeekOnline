@@ -16,6 +16,10 @@ namespace Project.Game.Player
         [SerializeField] private float topClamp;
         [SerializeField] private float bottomClamp;
 
+        [Header("Movement Settings")] 
+        [SerializeField] private LayerMask ground;
+        [SerializeField] private Transform feet;
+
         private PlayerInput _playerInput;
         
         // Camera variables
@@ -26,6 +30,10 @@ namespace Project.Game.Player
         private CharacterController _character;
 
         private float _speed = 10f;
+        private bool _isIOnGround;
+        private float _verticalVelocity;
+        private const float Gravity = -9.81f;
+        private const float GroundOffset = 0.01f;
 
         private void OnEnable()
         {
@@ -37,14 +45,15 @@ namespace Project.Game.Player
 
         private void FixedUpdate()
         {
+            if (!IsOwner) return;
+            
             HandlePlayerMovementAndRotation();
             HandleCameraRotation();
+            HandleGravity();
         }
 
         private void HandlePlayerMovementAndRotation()
         {
-            if (!IsOwner) return;
-
             Vector2 input = _playerInput.actions["Move"].ReadValue<Vector2>();
 
             if (!(input.magnitude > 0)) return;
@@ -58,8 +67,6 @@ namespace Project.Game.Player
 
         private void HandleCameraRotation()
         {
-            if (!IsOwner) return;
-
             Vector2 input = _playerInput.actions["Look"].ReadValue<Vector2>();
             
             _camTargetX += input.x * sensitivityX * Time.deltaTime;
@@ -68,6 +75,20 @@ namespace Project.Game.Player
             _camTargetY = Mathf.Clamp(_camTargetY, bottomClamp, topClamp);
                 
             camTarget.transform.rotation = Quaternion.Euler(_camTargetY, _camTargetX, 0f);
+        }
+
+        private void HandleGravity()
+        {
+            _verticalVelocity += Gravity * Time.deltaTime;
+
+            _isIOnGround = Physics.CheckSphere(feet.position, GroundOffset, ground);
+
+            if (_isIOnGround && _verticalVelocity < 0f)
+            {
+                _verticalVelocity = -2f;
+            }
+
+            _character.Move(new Vector3(0f, _verticalVelocity, 0f) * Time.deltaTime);
         }
     }
 }

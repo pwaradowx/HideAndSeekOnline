@@ -19094,7 +19094,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hiderPrefab: {fileID: 4751611713186240504, guid: 44a1b755f7bc74346a583f46f0b6d747, type: 3}
   seekerPrefab: {fileID: 4751611713186240504, guid: 65ae9eb1da2dc34499b537b81dad33ea, type: 3}
-  seekerPosition: {x: 1.25, y: 1, z: 1}
+  seekerPosition: {x: 1.25, y: 2, z: 1}
   roleGiver: {fileID: 2131927728}
 --- !u!1001 &1555803133
 PrefabInstance:

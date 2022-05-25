@@ -26,6 +26,8 @@ namespace Project.Game.Player
 
         private void FixedUpdate()
         {
+            if (!IsOwner) return;
+            
             if (!_shouldFire) return;
             
             HandleFire();

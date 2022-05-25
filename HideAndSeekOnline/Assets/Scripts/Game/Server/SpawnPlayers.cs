@@ -37,7 +37,7 @@ namespace Project.Game.Server
 
             if (role == (int) RoleGiver.Roles.Hider)
             {
-                player = Instantiate(hiderPrefab, new Vector3(Random.Range(-10f, 10f), 1f, 0f), 
+                player = Instantiate(hiderPrefab, new Vector3(Random.Range(-1f, 1f), 2f, 0f), 
                     Quaternion.identity);
             }
             else if (role == (int) RoleGiver.Roles.Seeker)

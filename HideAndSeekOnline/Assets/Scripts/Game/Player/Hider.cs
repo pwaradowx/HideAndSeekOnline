@@ -47,6 +47,8 @@ namespace Project.Game.Player
 
         private void FixedUpdate()
         {
+            if (!IsOwner) return;
+            
             if (_playerInput.actions["Swap"].phase == InputActionPhase.Performed) HandleBodySwap();
             if (_shouldRotate) HandleBodyRotation();
         }
