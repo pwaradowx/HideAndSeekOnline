@@ -81,6 +81,7 @@ namespace Project.Game.Player
             meshFilter.sharedMesh = swappable.MyMeshFilter.sharedMesh;
             meshRenderer.sharedMaterials = swappable.MyMeshRenderer.sharedMaterials;
             body.transform.localPosition = swappable.ModelPosition;
+            body.transform.localScale = new Vector3(2f, 2f, 2f);
         }
 
         private void HandleBodyRotation()

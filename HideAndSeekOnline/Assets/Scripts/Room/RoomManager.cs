@@ -36,7 +36,8 @@ namespace Project.Room
             if (!IsEveryoneReady()) return;
 
             UserConfig.Instance.IsGameStarted = true;
-            NetworkManager.Singleton.SceneManager.LoadScene("Game", LoadSceneMode.Single);
+            //NetworkManager.Singleton.SceneManager.LoadScene("Game", LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene("House", LoadSceneMode.Single);
         }
         
         [ServerRpc(RequireOwnership = false)]

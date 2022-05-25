@@ -10,6 +10,8 @@ namespace Project.Game.Server
         [SerializeField] private GameObject hiderPrefab;
         [SerializeField] private GameObject seekerPrefab;
 
+        [SerializeField] private Vector3 seekerPosition;
+ 
         [SerializeField] private RoleGiver roleGiver;
 
         public override void OnNetworkSpawn()
@@ -40,8 +42,7 @@ namespace Project.Game.Server
             }
             else if (role == (int) RoleGiver.Roles.Seeker)
             {
-                player = Instantiate(seekerPrefab, new Vector3(Random.Range(-10f, 10f), 1f, 0f), 
-                    Quaternion.identity);
+                player = Instantiate(seekerPrefab, seekerPosition, Quaternion.identity);
             }
             else
             {
