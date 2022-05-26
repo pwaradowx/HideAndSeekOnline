@@ -5,8 +5,11 @@ namespace Project.Game.Player
 {
     public class Swappable : NetworkBehaviour
     {
-        public MeshFilter MyMeshFilter;
+        public Mesh MyMesh;
         public MeshRenderer MyMeshRenderer;
         public Vector3 ModelPosition;
+        public float ControllerRadius;
+        public float ControllerHeight;
+        public float SkinWidth;
     }
 }

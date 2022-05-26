@@ -77,11 +77,18 @@ namespace Project.Game.Player
                 .GetComponent<MeshFilter>();
             var meshRenderer = NetworkManager.Singleton.SpawnManager.SpawnedObjects[playerObjectID].transform.GetChild(0)
                 .GetComponent<MeshRenderer>();
+            var character = NetworkManager.Singleton.SpawnManager.SpawnedObjects[playerObjectID].transform
+                .GetComponent<CharacterController>();
+            var feet = NetworkManager.Singleton.SpawnManager.SpawnedObjects[playerObjectID].transform.GetChild(1);
             var swappable = NetworkManager.Singleton.SpawnManager.SpawnedObjects[swappableObjectID]
                 .GetComponent<Swappable>();
-
-            meshFilter.sharedMesh = swappable.MyMeshFilter.sharedMesh;
-            meshRenderer.sharedMaterials = swappable.MyMeshRenderer.sharedMaterials;
+            
+            meshFilter.mesh = swappable.MyMesh;
+            meshRenderer.materials = swappable.MyMeshRenderer.materials;
+            character.radius = swappable.ControllerRadius;
+            character.height = swappable.ControllerHeight;
+            character.skinWidth = swappable.SkinWidth;
+            feet.localPosition = Vector3.zero;
             body.transform.localPosition = swappable.ModelPosition;
             body.transform.localScale = new Vector3(2f, 2f, 2f);
         }

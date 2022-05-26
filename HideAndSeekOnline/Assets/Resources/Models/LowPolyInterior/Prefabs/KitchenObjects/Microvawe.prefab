@@ -110,9 +110,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2213ca6a63ad6044b981d3a4dd7d7478, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyMeshFilter: {fileID: 4924957001152798777}
+  MyMesh: {fileID: 4300000, guid: 3ceea266a27cbc84a870d9419fe97c0d, type: 3}
   MyMeshRenderer: {fileID: 4924957001153798905}
-  ModelPosition: {x: 0, y: 0, z: 0}
+  ModelPosition: {x: 0, y: -0.4, z: 0}
+  ControllerRadius: 0.4
+  ControllerHeight: 0.4
+  SkinWidth: 0.0001
 --- !u!114 &4227834350957788629
 MonoBehaviour:
   m_ObjectHideFlags: 0

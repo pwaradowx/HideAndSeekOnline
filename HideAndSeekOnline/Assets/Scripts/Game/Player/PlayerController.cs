@@ -33,7 +33,7 @@ namespace Project.Game.Player
         private bool _isIOnGround;
         private float _verticalVelocity;
         private const float Gravity = -9.81f;
-        private const float GroundOffset = 0.01f;
+        private const float GroundOffset = 0f;
 
         private void OnEnable()
         {

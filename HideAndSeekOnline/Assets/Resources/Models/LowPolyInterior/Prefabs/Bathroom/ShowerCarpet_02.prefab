@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 1284362209545941781}
   - component: {fileID: 1284362209546908117}
   - component: {fileID: 5701498769907925184}
-  - component: {fileID: 504769339646409551}
-  - component: {fileID: -4025084797287226417}
   m_Layer: 0
   m_Name: ShowerCarpet_02
   m_TagString: Untagged
@@ -98,34 +96,3 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 0a70d6dae42f3584ba3b88becda748df, type: 3}
---- !u!114 &504769339646409551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1284362209544646421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2213ca6a63ad6044b981d3a4dd7d7478, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MyMeshFilter: {fileID: 1284362209545941781}
-  MyMeshRenderer: {fileID: 1284362209546908117}
-  ModelPosition: {x: 0, y: 0, z: 0}
---- !u!114 &-4025084797287226417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1284362209544646421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 951099334
-  AlwaysReplicateAsRoot: 0
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1

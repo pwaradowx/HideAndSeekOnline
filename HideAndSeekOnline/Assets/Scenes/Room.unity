@@ -381,7 +381,7 @@ MonoBehaviour:
   - {fileID: 1739836845}
   - {fileID: 1669449682}
   startGameButton: {fileID: 369961621}
-  isItDevBuild: 1
+  isItDevBuild: 0
 --- !u!114 &117356912
 MonoBehaviour:
   m_ObjectHideFlags: 0
