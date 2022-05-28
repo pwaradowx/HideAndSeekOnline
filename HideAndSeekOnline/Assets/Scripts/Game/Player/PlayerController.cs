@@ -29,11 +29,13 @@ namespace Project.Game.Player
         // Movement variables
         private CharacterController _character;
 
+        private Vector3 _targetDirection;
         private float _speed = 10f;
         private bool _isIOnGround;
         private float _verticalVelocity;
         private const float Gravity = -9.81f;
-        private const float GroundOffset = 0f;
+        private const float GroundOffset = 0.1f;
+        private const float JumpStrength = 2f;
 
         private void OnEnable()
         {
@@ -48,21 +50,35 @@ namespace Project.Game.Player
             if (!IsOwner) return;
             
             HandlePlayerMovementAndRotation();
+            HandleJump();
             HandleCameraRotation();
             HandleGravity();
+
+            _character.Move(_targetDirection.normalized * _speed * Time.deltaTime +
+                            new Vector3(0f, _verticalVelocity, 0f) * Time.deltaTime);
         }
 
         private void HandlePlayerMovementAndRotation()
         {
             Vector2 input = _playerInput.actions["Move"].ReadValue<Vector2>();
 
-            if (!(input.magnitude > 0)) return;
+            if (!(input.magnitude > 0))
+            {
+                _targetDirection = Vector3.zero;
+                return;
+            }
 
             Vector3 xDir = cam.transform.right * input.x;
             Vector3 zDir = Quaternion.Euler(0f, cam.transform.eulerAngles.y, 0f) * Vector3.forward * input.y;
-            Vector3 targetDirection = xDir + zDir;
+            
+            _targetDirection = xDir + zDir;
+        }
 
-            _character.Move(targetDirection.normalized * _speed * Time.deltaTime);
+        private void HandleJump()
+        {
+            if (_playerInput.actions["Jump"].phase != InputActionPhase.Performed || !_isIOnGround) return;
+
+            _verticalVelocity = Mathf.Sqrt(JumpStrength * -2f * Gravity);
         }
 
         private void HandleCameraRotation()
@@ -83,12 +99,10 @@ namespace Project.Game.Player
 
             _isIOnGround = Physics.CheckSphere(feet.position, GroundOffset, ground);
 
-            if (_isIOnGround && _verticalVelocity < 0f)
+            if (_isIOnGround && _verticalVelocity <= 0f)
             {
                 _verticalVelocity = -2f;
             }
-
-            _character.Move(new Vector3(0f, _verticalVelocity, 0f) * Time.deltaTime);
         }
     }
 }

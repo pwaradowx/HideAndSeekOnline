@@ -88,7 +88,7 @@ namespace Project.Game.Player
             character.radius = swappable.ControllerRadius;
             character.height = swappable.ControllerHeight;
             character.skinWidth = swappable.SkinWidth;
-            feet.localPosition = Vector3.zero;
+            feet.localPosition = swappable.ModelPosition;
             body.transform.localPosition = swappable.ModelPosition;
             body.transform.localScale = new Vector3(2f, 2f, 2f);
         }
