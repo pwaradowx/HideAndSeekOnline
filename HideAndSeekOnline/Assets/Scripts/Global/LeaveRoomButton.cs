@@ -18,45 +18,55 @@ namespace Project.Global
                     
                     if (NetworkManager.Singleton.LocalClientId == id) continue;
                     
-                    var clientObject = NetworkManager.Singleton.ConnectedClients[id].PlayerObject;
-                    if (clientObject != null) clientObject.Despawn();
+                    RequestPlayerDespawnServerRpc(id);
 
                     NetworkManager.Singleton.DisconnectClient(id);
                 }
                 
                 // Then disconnect host itself.
-                var hostObject = NetworkManager.Singleton.ConnectedClients[OwnerClientId].PlayerObject;
-                if (hostObject != null) hostObject.Despawn();
+                RequestPlayerDespawnServerRpc(OwnerClientId);
 
-                NetworkManager.Singleton.Shutdown();
-                Destroy(NetworkManager.Singleton.gameObject);
+                DisconnectUser(OwnerClientId);
 
                 UserConfig.Instance.IsGameStarted = false;
-                
-                SceneManager.LoadScene("RoomConnection", LoadSceneMode.Single);
             }
             else
             {
                 // Disconnect single client.
-                Cursor.lockState = CursorLockMode.None;
+                RequestPlayerDespawnServerRpc(OwnerClientId);
                 
-                RequestClientDisconnectServerRpc(OwnerClientId);
-                
-                NetworkManager.Singleton.Shutdown();
-                Destroy(NetworkManager.Singleton.gameObject);
-                
-                SceneManager.LoadScene("RoomConnection", LoadSceneMode.Single);
+                DisconnectUser(OwnerClientId);
             }
         }
         
         [ServerRpc]
-        private void RequestClientDisconnectServerRpc(ulong id)
+        private void RequestPlayerDespawnServerRpc(ulong id)
         {
             foreach (var clientID in NetworkManager.Singleton.ConnectedClientsIds)
             {
                 if (clientID == id) NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(id).Despawn();
                 break;
             }
+        }
+
+        private void Start()
+        {
+            if (NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsHost)
+            {
+                NetworkManager.Singleton.OnClientDisconnectCallback += DisconnectUser;
+            }
+        }
+        
+        private void DisconnectUser(ulong id)
+        {
+            Cursor.lockState = CursorLockMode.None;
+
+            NetworkManager.Singleton.Shutdown();
+            Destroy(NetworkManager.Singleton.gameObject);
+            
+            if (NetworkManager.Singleton) NetworkManager.Singleton.OnClientDisconnectCallback -= DisconnectUser;
+                    
+            SceneManager.LoadScene("RoomConnection", LoadSceneMode.Single);
         }
     }
 }

@@ -63,6 +63,8 @@ namespace Project.Game.Player
 
         public override void OnDestroy()
         { 
+            base.OnDestroy();
+            
             _playerInput.actions["MatchMenu"].started -= HandleMatchMenu;
         }
     }
