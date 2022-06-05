@@ -34,7 +34,14 @@ namespace Project.Global
         /// <param name="username"></param>
         public void TryToSetName(ulong userID, string username)
         {
-            _roomPlayersNames.Add(userID, username);
+            if (_roomPlayersNames.ContainsKey(userID))
+            {
+                _roomPlayersNames[userID] = username;
+            }
+            else
+            {
+                _roomPlayersNames.Add(userID, username);
+            }
         }
 
         private void Awake()

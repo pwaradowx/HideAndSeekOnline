@@ -47,12 +47,14 @@ namespace Project.Game.Player
 
         private void FixedUpdate()
         {
-            if (!IsOwner) return;
-            
-            HandlePlayerMovementAndRotation();
-            HandleJump();
-            HandleCameraRotation();
             HandleGravity();
+            
+            if (IsOwner && !PlayerEntity.IsGamePaused)
+            {
+                HandlePlayerMovementAndRotation();
+                HandleJump();
+                HandleCameraRotation();
+            }
 
             _character.Move(_targetDirection.normalized * _speed * Time.deltaTime +
                             new Vector3(0f, _verticalVelocity, 0f) * Time.deltaTime);

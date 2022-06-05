@@ -16,8 +16,14 @@ namespace Project.Room
             waitingPanel.SetActive(false);
             playerDataPanel.SetActive(true);
 
-            nameText.text = playerState.UserName.ToString();
+            nameText.text = playerState.UserName.Value.ToString();
             readyText.text = playerState.IsReady ? "Ready" : "Not Ready";
+        }
+        
+        public void DisableDisplay()
+        {
+            waitingPanel.SetActive(true);
+            playerDataPanel.SetActive(false);
         }
     }
 }

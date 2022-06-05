@@ -6,7 +6,7 @@ namespace Project.Room
 {
     public struct RoomPlayerState : INetworkSerializable, IEquatable<RoomPlayerState>
     {
-        public FixedString64Bytes UserName;
+        public ForceNetworkSerializeByMemcpy<FixedString64Bytes> UserName;
         public ulong UserID;
         public bool IsReady;
 

@@ -1,32 +1,38 @@
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Project.Game.Player
 {
     public class PlayerEntity : NetworkBehaviour
     {
-        [SerializeField] private GameObject PlayerInterface;
+        [SerializeField] private GameObject playerInterface;
         [SerializeField] private TextMeshProUGUI nameplate;
+        [SerializeField] private MatchMenu matchMenu;
         
         [SerializeField] private Behaviour[] componentsToDisable;
 
-        public string Name
-        {
-            get => _name;
-            set
-            {
-                _name = value;
-                nameplate.text = value;
-            }
-        }
-        private string _name;
+        public static bool IsGamePaused { get; private set; }
+        public string Name { set => nameplate.text = value; }
+
+        private PlayerInput _playerInput;
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
             
-            if (IsOwner) PlayerInterface.SetActive(true);
+            if (IsOwner)
+            {
+                playerInterface.SetActive(true);
+                
+                matchMenu.Hide();
+                
+                _playerInput = GetComponent<PlayerInput>();
+                _playerInput.actions["MatchMenu"].started += HandleMatchMenu;
+                
+                IsGamePaused = false;
+            }
 
             if (!IsLocalPlayer)
             {
@@ -35,6 +41,29 @@ namespace Project.Game.Player
                     component.enabled = false;
                 }
             }
+        }
+
+        private void HandleMatchMenu(InputAction.CallbackContext callback)
+        {
+            if (!IsOwner) return;
+            
+            if (IsGamePaused)
+            {
+                matchMenu.Hide();
+                Cursor.lockState = CursorLockMode.Locked;
+                IsGamePaused = false;
+            }
+            else
+            {
+                matchMenu.Show();
+                Cursor.lockState = CursorLockMode.None;
+                IsGamePaused = true;
+            }
+        }
+
+        public override void OnDestroy()
+        { 
+            _playerInput.actions["MatchMenu"].started -= HandleMatchMenu;
         }
     }
 }

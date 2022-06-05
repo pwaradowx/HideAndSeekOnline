@@ -36,7 +36,6 @@ namespace Project.Room
             if (!IsEveryoneReady()) return;
 
             UserConfig.Instance.IsGameStarted = true;
-            //NetworkManager.Singleton.SceneManager.LoadScene("Game", LoadSceneMode.Single);
             NetworkManager.Singleton.SceneManager.LoadScene("House", LoadSceneMode.Single);
         }
         
@@ -85,6 +84,10 @@ namespace Project.Room
                 if (_roomPlayers.Count > i)
                 {
                     roomPlayerCards[i].UpdateDisplay(_roomPlayers[i]);
+                }
+                else
+                {
+                    roomPlayerCards[i].DisableDisplay();
                 }
             }
 

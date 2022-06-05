@@ -29,16 +29,22 @@ namespace Project.Game.Player
             _playerInput.actions["Fire"].canceled += callback =>
             {
                 _shouldFire = false;
-                hitEffect.localScale = _effectSmallScale;
+                
+                if (hitEffect == null) return;
+                
                 hitEffect.gameObject.SetActive(false);
+                hitEffect.localScale = _effectSmallScale;
             };
-            hitEffect.localScale = _effectSmallScale;
+            
+            if (hitEffect == null) return;
+            
             hitEffect.gameObject.SetActive(false);
+            hitEffect.localScale = _effectSmallScale;
         }
 
         private void FixedUpdate()
         {
-            if (!IsOwner) return;
+            if (!IsOwner || PlayerEntity.IsGamePaused) return;
             
             if (!_shouldFire) return;
             
@@ -61,6 +67,8 @@ namespace Project.Game.Player
         {
             if (_hiderGotHit)
             {
+                if (hitEffect == null) return;
+                
                 if (!hitEffect.gameObject.activeSelf)
                 {
                     hitEffect.gameObject.SetActive(true);
@@ -70,6 +78,8 @@ namespace Project.Game.Player
             }
             else
             {
+                if (hitEffect == null) return;
+                
                 if (hitEffect.gameObject.activeSelf)
                 {
                     hitEffect.gameObject.SetActive(false);

@@ -65,6 +65,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""MatchMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""575b79a7-7d7c-4a4a-a37f-15a5f8f220e4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -177,6 +185,17 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e8a65a38-dbd8-4f2a-81d5-c1fddcec8481"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MatchMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -191,6 +210,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
         m_Player_Swap = m_Player.FindAction("Swap", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_MatchMenu = m_Player.FindAction("MatchMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -246,6 +266,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Rotate;
     private readonly InputAction m_Player_Swap;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_MatchMenu;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -256,6 +277,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
         public InputAction @Swap => m_Wrapper.m_Player_Swap;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @MatchMenu => m_Wrapper.m_Player_MatchMenu;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -283,6 +305,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @MatchMenu.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMatchMenu;
+                @MatchMenu.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMatchMenu;
+                @MatchMenu.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMatchMenu;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -305,6 +330,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @MatchMenu.started += instance.OnMatchMenu;
+                @MatchMenu.performed += instance.OnMatchMenu;
+                @MatchMenu.canceled += instance.OnMatchMenu;
             }
         }
     }
@@ -317,5 +345,6 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnRotate(InputAction.CallbackContext context);
         void OnSwap(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnMatchMenu(InputAction.CallbackContext context);
     }
 }
