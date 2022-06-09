@@ -96,7 +96,10 @@ namespace Project.Game.Player
         [ClientRpc]
         private void InflictDamageClientRpc(ulong objectID)
         {
-            NetworkManager.Singleton.SpawnManager.SpawnedObjects[objectID].GetComponent<Hider>().TakeDamage(_damage);
+            if (!NetworkManager.Singleton.SpawnManager.SpawnedObjects.ContainsKey(objectID)) return;
+            
+            var playerObj = NetworkManager.Singleton.SpawnManager.SpawnedObjects[objectID];
+            if (playerObj != null) playerObj.GetComponent<Hider>().TakeDamage(_damage);
         }
     }
 }

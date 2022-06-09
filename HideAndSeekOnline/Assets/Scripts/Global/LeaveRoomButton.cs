@@ -44,7 +44,11 @@ namespace Project.Global
         {
             foreach (var clientID in NetworkManager.Singleton.ConnectedClientsIds)
             {
-                if (clientID == id) NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(id).Despawn();
+                if (clientID == id)
+                {
+                    var player = NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(id);
+                    if (player != null) player.Despawn();
+                }
                 break;
             }
         }

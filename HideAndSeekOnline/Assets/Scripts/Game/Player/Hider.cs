@@ -11,10 +11,14 @@ namespace Project.Game.Player
         [SerializeField] private Transform body;
         [SerializeField] private Slider healthBar;
 
+        public delegate void Die(ulong id, Vector3 deathPlace);
+        public static event Die OnDieCallback;
+
         private PlayerInput _playerInput;
         
         private float _health;
         private const int MaxHealth = 100;
+        private bool _deadAlready;
         
         private const float SwapDistance = 25f;
         
@@ -27,9 +31,10 @@ namespace Project.Game.Player
 
             healthBar.value = _health;
 
-            if (_health <= 0)
+            if (_health <= 0 && !_deadAlready)
             {
-                NetworkManager.Singleton.SpawnManager.SpawnedObjects[NetworkObjectId].Despawn();
+                _deadAlready = true;
+                OnDieCallback?.Invoke(OwnerClientId, transform.position);
             }
         }
 

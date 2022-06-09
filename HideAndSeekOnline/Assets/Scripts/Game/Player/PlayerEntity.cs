@@ -9,7 +9,7 @@ namespace Project.Game.Player
     {
         [SerializeField] private GameObject playerInterface;
         [SerializeField] private TextMeshProUGUI nameplate;
-        [SerializeField] private MatchMenu matchMenu;
+        [SerializeField] private PauseMenu pauseMenu;
         
         [SerializeField] private Behaviour[] componentsToDisable;
 
@@ -26,7 +26,7 @@ namespace Project.Game.Player
             {
                 playerInterface.SetActive(true);
                 
-                matchMenu.Hide();
+                pauseMenu.Hide();
                 
                 _playerInput = GetComponent<PlayerInput>();
                 _playerInput.actions["MatchMenu"].started += HandleMatchMenu;
@@ -49,13 +49,13 @@ namespace Project.Game.Player
             
             if (IsGamePaused)
             {
-                matchMenu.Hide();
+                pauseMenu.Hide();
                 Cursor.lockState = CursorLockMode.Locked;
                 IsGamePaused = false;
             }
             else
             {
-                matchMenu.Show();
+                pauseMenu.Show();
                 Cursor.lockState = CursorLockMode.None;
                 IsGamePaused = true;
             }
@@ -65,7 +65,7 @@ namespace Project.Game.Player
         { 
             base.OnDestroy();
             
-            _playerInput.actions["MatchMenu"].started -= HandleMatchMenu;
+            if (_playerInput != null) _playerInput.actions["MatchMenu"].started -= HandleMatchMenu;
         }
     }
 }
