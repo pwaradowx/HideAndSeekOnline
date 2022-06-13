@@ -19,6 +19,8 @@ namespace Project.Game.Player
         [Header("Movement Settings")] 
         [SerializeField] private LayerMask ground;
         [SerializeField] private Transform feet;
+        
+        public Vector3 TargetDirection { get; private set; }
 
         private PlayerInput _playerInput;
         
@@ -29,7 +31,6 @@ namespace Project.Game.Player
         // Movement variables
         private CharacterController _character;
 
-        private Vector3 _targetDirection;
         private float _speed = 10f;
         private bool _isIOnGround;
         private float _verticalVelocity;
@@ -56,7 +57,7 @@ namespace Project.Game.Player
                 HandleCameraRotation();
             }
 
-            _character.Move(_targetDirection.normalized * _speed * Time.deltaTime +
+            _character.Move(TargetDirection.normalized * _speed * Time.deltaTime +
                             new Vector3(0f, _verticalVelocity, 0f) * Time.deltaTime);
         }
 
@@ -66,14 +67,14 @@ namespace Project.Game.Player
 
             if (!(input.magnitude > 0))
             {
-                _targetDirection = Vector3.zero;
+                TargetDirection = Vector3.zero;
                 return;
             }
 
             Vector3 xDir = cam.transform.right * input.x;
             Vector3 zDir = Quaternion.Euler(0f, cam.transform.eulerAngles.y, 0f) * Vector3.forward * input.y;
             
-            _targetDirection = xDir + zDir;
+            TargetDirection = xDir + zDir;
         }
 
         private void HandleJump()
