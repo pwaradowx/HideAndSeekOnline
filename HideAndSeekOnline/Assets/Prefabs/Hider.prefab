@@ -954,6 +954,7 @@ MonoBehaviour:
   sensitivityY: 10
   topClamp: 60
   bottomClamp: -60
+  speed: 7.5
   ground:
     serializedVersion: 2
     m_Bits: 192

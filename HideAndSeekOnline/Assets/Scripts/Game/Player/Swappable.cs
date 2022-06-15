@@ -11,5 +11,6 @@ namespace Project.Game.Player
         public float ControllerRadius;
         public float ControllerHeight;
         public float SkinWidth;
+        public float Health;
     }
 }

@@ -17,7 +17,7 @@ namespace Project.Game.Player
         private PlayerInput _playerInput;
         
         private float _health;
-        private const int MaxHealth = 100;
+        private const int MaxHealth = 15;
         private bool _deadAlready;
         
         private const float SwapDistance = 25f;
@@ -96,6 +96,9 @@ namespace Project.Game.Player
             feet.localPosition = swappable.ModelPosition;
             body.transform.localPosition = swappable.ModelPosition;
             body.transform.localScale = new Vector3(2f, 2f, 2f);
+            healthBar.maxValue = swappable.Health;
+            healthBar.value = swappable.Health;
+            _health = swappable.Health;
         }
 
         private void HandleBodyRotation()

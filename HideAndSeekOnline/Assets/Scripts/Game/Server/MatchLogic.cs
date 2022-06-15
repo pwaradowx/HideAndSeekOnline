@@ -41,12 +41,14 @@ namespace Project.Game.Server
         private async Task StartHidePhase()
         {
             int timeout = 30;
+            
+            if (matchMenu != null) matchMenu.UpdateTimerClientRpc(timeout);
 
             while (timeout > 0)
             {
-                if (matchMenu != null) matchMenu.UpdateTimerClientRpc(timeout);
-
                 timeout -= 1;
+                
+                if (matchMenu != null) matchMenu.UpdateTimerClientRpc(timeout);
                 
                 if (timeout <= 0)
                 {

@@ -1254,6 +1254,7 @@ MonoBehaviour:
   sensitivityY: 10
   topClamp: 60
   bottomClamp: -60
+  speed: 10
   ground:
     serializedVersion: 2
     m_Bits: 192
@@ -1343,7 +1344,7 @@ CharacterController:
   serializedVersion: 2
   m_Height: 3
   m_Radius: 0.35
-  m_SlopeLimit: 45
+  m_SlopeLimit: 100
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001

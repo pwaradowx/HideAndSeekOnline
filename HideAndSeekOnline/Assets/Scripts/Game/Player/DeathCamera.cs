@@ -6,13 +6,14 @@ namespace Project.Game.Player
 {
     public class DeathCamera : NetworkBehaviour
     {
+        private CharacterController _character;
         private Camera _cam;
         private PlayerInput _playerInput;
 
         private float _camX;
         private float _camY;
 
-        private const float Speed = 2f;
+        private const float Speed = 0.5f;
         private const float SensitivityX = 10f;
         private const float SensitivityY = 10f;
         private const float TopClamp = 90f;
@@ -24,6 +25,7 @@ namespace Project.Game.Player
 
             if (!IsOwner) return;
 
+            _character = GetComponent<CharacterController>();
             _cam = GetComponent<Camera>();
             _playerInput = GetComponent<PlayerInput>();
         }
@@ -45,7 +47,7 @@ namespace Project.Game.Player
             var cam = _cam.transform;
             Vector3 direction = (cam.right * input.x + cam.forward * input.y) * (Speed * Time.deltaTime);
             
-            transform.Translate(direction.normalized, Space.World);
+            _character.Move(direction.normalized);
         }
 
         private void HandleRotation()

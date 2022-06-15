@@ -116,6 +116,7 @@ MonoBehaviour:
   ControllerRadius: 0.5
   ControllerHeight: 0
   SkinWidth: 0.0001
+  Health: 40
 --- !u!114 &1816017704539924185
 MonoBehaviour:
   m_ObjectHideFlags: 0

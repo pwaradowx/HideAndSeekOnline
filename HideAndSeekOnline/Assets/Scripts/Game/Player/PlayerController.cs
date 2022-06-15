@@ -17,6 +17,7 @@ namespace Project.Game.Player
         [SerializeField] private float bottomClamp;
 
         [Header("Movement Settings")] 
+        [SerializeField] private float speed;
         [SerializeField] private LayerMask ground;
         [SerializeField] private Transform feet;
         
@@ -31,12 +32,11 @@ namespace Project.Game.Player
         // Movement variables
         private CharacterController _character;
 
-        private float _speed = 10f;
         private bool _isIOnGround;
         private float _verticalVelocity;
         private const float Gravity = -9.81f;
         private const float GroundOffset = 0.1f;
-        private const float JumpStrength = 2f;
+        private const float JumpStrength = 1f;
 
         private void OnEnable()
         {
@@ -57,7 +57,7 @@ namespace Project.Game.Player
                 HandleCameraRotation();
             }
 
-            _character.Move(TargetDirection.normalized * _speed * Time.deltaTime +
+            _character.Move(TargetDirection.normalized * speed * Time.deltaTime +
                             new Vector3(0f, _verticalVelocity, 0f) * Time.deltaTime);
         }
 
